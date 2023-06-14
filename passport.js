@@ -7,6 +7,12 @@ let Users = Models.User,
     JWTStrategy = passportJWT.Strategy,
     ExtractJWT = passportJWT.ExtractJwt;
 
+/**
+ * Passport Local Strategy for user login
+ * @param {string} username - input field for request body
+ * @param {string} password - input field for request body
+ * @returns @function callback - validated user or text response for failed validation
+ */
 passport.use(
     new LocalStrategy(
         {
@@ -20,11 +26,17 @@ passport.use(
                     console.log(error);
                     return callback(error);
                 }
-
                 if (!user) {
                     console.log("incorrect username");
                     return callback(null, false, {
                         message: "Incorrect username or password.",
+                    });
+                }
+
+                if (!user.validatePassword(password)) {
+                    console.log("incorrect password");
+                    return callback(null, false, {
+                        message: "Incorrect password.",
                     });
                 }
 
@@ -35,6 +47,12 @@ passport.use(
     )
 );
 
+/**
+ * Passport JWT Strategy for user login
+ * @param {object} - users data from HTTP header
+ * @param {object} - users JWT key
+ * @returns @function callback - user data or error response
+ */
 passport.use(
     new JWTStrategy(
         {
