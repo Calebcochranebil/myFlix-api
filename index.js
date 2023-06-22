@@ -31,7 +31,7 @@ let allowedOrigins = [
     "http://localhost:8080",
     "http://testsite.com",
     "http://localhost:1234",
-    "https://main--myflixbil.netlify.app/login",
+    "https://main--myflixbil.netlify.app",
 ];
 
 app.use(
